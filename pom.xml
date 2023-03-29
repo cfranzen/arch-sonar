@@ -24,7 +24,7 @@
     </licenses>
 
     <modules>
-        <module>kotlin-parent</module>
+        <module>java-parent</module>
     </modules>
 
     <properties>
