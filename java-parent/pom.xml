@@ -21,6 +21,7 @@
     <modules>
         <module>core-resources</module>
         <module>resources-filesystem</module>
+        <module>core-components</module>
     </modules>
 
     <build>
