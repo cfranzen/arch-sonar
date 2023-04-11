@@ -1,7 +1,7 @@
-package de.cfranzen.archsonar.resources.detector;
+package de.cfranzen.archsonar.components.detector;
 
-import de.cfranzen.archsonar.resources.Module;
-import de.cfranzen.archsonar.resources.*;
+import de.cfranzen.archsonar.components.Module;
+import de.cfranzen.archsonar.components.*;
 
 import java.util.Set;
 

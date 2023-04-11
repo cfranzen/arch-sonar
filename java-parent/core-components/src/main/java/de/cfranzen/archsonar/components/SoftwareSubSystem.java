@@ -1,8 +1,8 @@
-package de.cfranzen.archsonar.resources;
+package de.cfranzen.archsonar.components;
 
 import java.util.Set;
 
-public interface SoftwareSystem {
+public interface SoftwareSubSystem {
 
     Set<SoftwareSubSystem> subSystems();
 

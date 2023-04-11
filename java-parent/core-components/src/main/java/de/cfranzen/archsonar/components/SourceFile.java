@@ -1,4 +1,4 @@
-package de.cfranzen.archsonar.resources;
+package de.cfranzen.archsonar.components;
 
 import java.util.Set;
 

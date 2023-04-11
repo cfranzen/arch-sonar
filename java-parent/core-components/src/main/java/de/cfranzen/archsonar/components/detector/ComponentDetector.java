@@ -1,4 +1,4 @@
-package de.cfranzen.archsonar.resources.detector;
+package de.cfranzen.archsonar.components.detector;
 
 import de.cfranzen.archsonar.resources.ResourcesCollection;
 
