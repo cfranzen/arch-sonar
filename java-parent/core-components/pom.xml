@@ -12,4 +12,10 @@
 
     <artifactId>archsonar-core-components</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>de.cfranzen.archsonar</groupId>
+            <artifactId>archsonar-core-resources</artifactId>
+        </dependency>
+    </dependencies>
 </project>
