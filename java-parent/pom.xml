@@ -22,6 +22,7 @@
         <module>core-resources</module>
         <module>resources-filesystem</module>
         <module>core-components</module>
+        <module>components-java</module>
     </modules>
 
     <build>
@@ -120,6 +121,11 @@
             <dependency>
                 <groupId>de.cfranzen.archsonar</groupId>
                 <artifactId>archsonar-core-resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.cfranzen.archsonar</groupId>
+                <artifactId>archsonar-core-components</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
