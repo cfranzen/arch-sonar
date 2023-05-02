@@ -8,6 +8,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
 
@@ -109,5 +110,28 @@ class PathResourcesCollectionTest {
                 .map(it -> rootDir.resolve(it).toString())
                 .collect(toSet());
         assertThat(iterated).isEqualTo(expectedFiles);
+    }
+
+    @Test
+    void detect_mediatype_of_resources() throws IOException {
+        // Given
+        final Path subdir = rootDir.resolve("mediatype");
+        Files.createDirectories(subdir);
+
+        Files.write(subdir.resolve("binary.dat"), new byte[]{0xD, 0XE, 0xA, 0xD, 0xB, 0xE, 0xE, 0xF});
+        Files.writeString(subdir.resolve("myclass.java"), "some java code");
+
+        val sut = new PathResourcesCollection(subdir);
+
+        // When
+        val iterated = sut.resources()
+                .map(r -> Paths.get(r.uri().getPath()).getFileName().toString() + " " + r.type())
+                .collect(toSet());
+
+        // Then
+        assertThat(iterated).contains(
+                "binary.dat application/octet-stream",
+                "myclass.java text/x-java-source"
+        );
     }
 }

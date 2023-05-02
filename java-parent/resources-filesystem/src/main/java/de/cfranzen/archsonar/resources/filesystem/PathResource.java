@@ -3,6 +3,7 @@ package de.cfranzen.archsonar.resources.filesystem;
 import de.cfranzen.archsonar.resources.Resource;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.tika.mime.MediaType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,9 +19,12 @@ public class PathResource implements Resource {
 
     private final URI uri;
 
-    public PathResource(final Path path) {
+    private final MediaType type;
+
+    PathResource(final Path path, final MediaType type) {
         this.path = path;
         this.uri = path.toAbsolutePath().toUri();
+        this.type = type;
     }
 
     @Override
@@ -28,11 +32,17 @@ public class PathResource implements Resource {
         return uri;
     }
 
+    @Override
     public InputStream openInputStream() {
         try {
             return Files.newInputStream(path);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to open InputStream for " + path, e);
         }
+    }
+
+    @Override
+    public MediaType type() {
+        return type;
     }
 }

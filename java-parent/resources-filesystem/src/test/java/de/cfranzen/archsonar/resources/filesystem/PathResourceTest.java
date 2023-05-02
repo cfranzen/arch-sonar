@@ -1,6 +1,7 @@
 package de.cfranzen.archsonar.resources.filesystem;
 
 import lombok.val;
+import org.apache.tika.mime.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -33,7 +34,7 @@ class PathResourceTest {
     @Test
     void calculateUriOfPathResource() {
         // Given
-        val sut = new PathResource(file);
+        val sut = new PathResource(file, MediaType.TEXT_PLAIN);
 
         // When
         val uri = sut.uri();
@@ -47,7 +48,7 @@ class PathResourceTest {
     @Test
     void readContentFromPathResource() throws IOException {
         // Given
-        val sut = new PathResource(file);
+        val sut = new PathResource(file, MediaType.TEXT_PLAIN);
 
         // When
         val content = new BufferedReader(new InputStreamReader(sut.openInputStream())).readLine();

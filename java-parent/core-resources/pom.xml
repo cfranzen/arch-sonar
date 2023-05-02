@@ -12,4 +12,10 @@
 
     <artifactId>archsonar-core-resources</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>
