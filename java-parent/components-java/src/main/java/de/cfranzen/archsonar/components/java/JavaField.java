@@ -11,7 +11,13 @@ import lombok.ToString;
 @ToString(of = "id")
 public class JavaField implements ProgrammingElement {
 
+    private final JavaType type;
+
     private final FieldIdentifier id;
+
+    public JavaType type() {
+        return type;
+    }
 
     @Override
     public FieldIdentifier id() {

@@ -11,7 +11,13 @@ import lombok.ToString;
 @ToString(of = "id")
 public class JavaMethod implements ProgrammingElement {
 
+    private final JavaType type;
+
     private final MethodIdentifier id;
+
+    public JavaType type() {
+        return type;
+    }
 
     @Override
     public MethodIdentifier id() {

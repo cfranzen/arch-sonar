@@ -45,12 +45,12 @@ public class JavaType implements HasNamespace, ProgrammingElement, HasChildEleme
     }
 
     public JavaType addField(String name) {
-        fields.add(new JavaField(new FieldIdentifier(id, name)));
+        fields.add(new JavaField(this, new FieldIdentifier(id, name)));
         return this;
     }
 
     public JavaType addMethod(String name, int index) {
-        methods.add(new JavaMethod(new MethodIdentifier(id, name, index)));
+        methods.add(new JavaMethod(this, new MethodIdentifier(id, name, index)));
         return this;
     }
 }
