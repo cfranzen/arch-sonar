@@ -21,3 +21,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Structurizr ###
+/structurizr/workspace.json
+/structurizr/.structurizr/
