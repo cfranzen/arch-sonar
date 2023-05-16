@@ -6,4 +6,5 @@ workspace ArchSonar {
     !docs doc
 
     !include c4/model.dsl
+    !include c4/views.dsl
 }
