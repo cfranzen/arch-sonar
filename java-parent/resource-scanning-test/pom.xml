@@ -9,7 +9,7 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>resource-scanning-filesystem</artifactId>
+    <artifactId>resource-scanning-test</artifactId>
 
     <dependencies>
         <dependency>

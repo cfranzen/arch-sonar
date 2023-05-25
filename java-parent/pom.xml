@@ -23,6 +23,9 @@
         <module>resource-scanning-filesystem</module>
         <module>components-spi</module>
         <module>components-java</module>
+        <module>resource-preprocessing-spi</module>
+        <module>resource-preprocessing-mediatype</module>
+        <module>resource-scanning-test</module>
     </modules>
 
     <build>
@@ -135,6 +138,16 @@
             <dependency>
                 <groupId>de.cfranzen.archsonar</groupId>
                 <artifactId>resource-scanning-spi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.cfranzen.archsonar</groupId>
+                <artifactId>resource-scanning-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.cfranzen.archsonar</groupId>
+                <artifactId>resource-preprocessing-spi</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

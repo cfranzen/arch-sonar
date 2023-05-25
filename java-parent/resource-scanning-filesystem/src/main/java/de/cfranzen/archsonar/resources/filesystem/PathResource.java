@@ -19,12 +19,9 @@ public class PathResource implements Resource {
 
     private final URI uri;
 
-    private final MediaType type;
-
-    PathResource(final Path path, final MediaType type) {
+    PathResource(final Path path) {
         this.path = path;
         this.uri = path.toAbsolutePath().toUri();
-        this.type = type;
     }
 
     @Override
@@ -43,6 +40,6 @@ public class PathResource implements Resource {
 
     @Override
     public MediaType type() {
-        return type;
+        return MediaType.OCTET_STREAM;
     }
 }
