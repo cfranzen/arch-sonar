@@ -8,21 +8,31 @@ import lombok.ToString;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @EqualsAndHashCode(of = "fullPackageName")
 @ToString(of = "fullPackageName")
 public class JavaPackage implements Namespace {
 
-    private static final Pattern DELIMITER = Pattern.compile(Pattern.quote("."));
+    public static final JavaPackage DEFAULT = new JavaPackage();
+
+    public static final String DELIMITER = ".";
+
+    private static final Pattern DELIMITER_PATTERN = Pattern.compile(Pattern.quote(DELIMITER));
 
     private final String fullPackageName;
 
     private final List<String> segments;
 
     public JavaPackage(final String fullPackageName) {
-        this.fullPackageName = fullPackageName;
-        this.segments = Collections.unmodifiableList(Arrays.asList(DELIMITER.split(fullPackageName)));
+        this.fullPackageName = Objects.requireNonNull(fullPackageName, "Full-qualified package name may not be null");
+        this.segments = Collections.unmodifiableList(Arrays.asList(DELIMITER_PATTERN.split(fullPackageName)));
+    }
+
+    private JavaPackage() {
+        this.fullPackageName = "<<default>>";
+        this.segments = Collections.emptyList();
     }
 
     @Override

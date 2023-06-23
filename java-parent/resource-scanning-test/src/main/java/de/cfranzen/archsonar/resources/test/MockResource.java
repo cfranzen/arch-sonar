@@ -17,26 +17,43 @@ import java.nio.file.Path;
 @ToString(of = "uri")
 public class MockResource implements Resource {
 
+    private final static MediaType DEFAULT_MEDIATYPE = MediaType.OCTET_STREAM;
+
     private final URI uri;
 
     private final byte[] data;
 
-    private MockResource(final URI uri, final byte[] data) {
+    private final MediaType mediaType;
+
+    private MockResource(final URI uri, final byte[] data, final MediaType mediaType) {
         this.uri = uri;
         this.data = data;
+        this.mediaType = mediaType;
     }
 
     public static MockResource fromText(final String uri, final String data) {
-        return new MockResource(URI.create(uri), data.getBytes(StandardCharsets.UTF_8));
+        return fromText(uri, data, DEFAULT_MEDIATYPE);
+    }
+
+    public static MockResource fromText(final String uri, final String data, final MediaType mediaType) {
+        return new MockResource(URI.create(uri), data.getBytes(StandardCharsets.UTF_8), mediaType);
     }
 
     public static MockResource fromBytes(final String uri, final byte[] data) {
-        return new MockResource(URI.create(uri), data);
+        return fromBytes(uri, data, DEFAULT_MEDIATYPE);
+    }
+
+    public static MockResource fromBytes(final String uri, final byte[] data, final MediaType mediaType) {
+        return new MockResource(URI.create(uri), data, mediaType);
     }
 
     public static MockResource fromFile(final Path file) {
+        return fromFile(file, DEFAULT_MEDIATYPE);
+    }
+
+    public static MockResource fromFile(final Path file, final MediaType mediaType) {
         try {
-            return new MockResource(file.toUri(), Files.readAllBytes(file));
+            return new MockResource(file.toUri(), Files.readAllBytes(file), mediaType);
         } catch (IOException e) {
             throw new RuntimeException("Unable to initialize MockResource from file " + file, e);
         }
@@ -54,6 +71,6 @@ public class MockResource implements Resource {
 
     @Override
     public MediaType type() {
-        return MediaType.OCTET_STREAM;
+        return mediaType;
     }
 }

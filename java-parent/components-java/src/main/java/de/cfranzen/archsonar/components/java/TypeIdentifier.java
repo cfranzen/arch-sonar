@@ -9,4 +9,8 @@ public record TypeIdentifier(JavaPackage javaPackage, String name) implements El
     public Namespace namespace() {
         return javaPackage();
     }
+
+    public String fullyQualifiedName() {
+        return javaPackage().name() + "." + name;
+    }
 }

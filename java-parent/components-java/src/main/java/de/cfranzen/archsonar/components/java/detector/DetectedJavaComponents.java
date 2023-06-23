@@ -4,9 +4,17 @@ import de.cfranzen.archsonar.components.Module;
 import de.cfranzen.archsonar.components.*;
 import de.cfranzen.archsonar.components.detector.DetectedComponents;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static java.util.Collections.emptySet;
+
 public class DetectedJavaComponents implements DetectedComponents {
+
+    private final Set<SourceFile> sourceFiles = new LinkedHashSet<>();
+
+    private final Set<ProgrammingElement> elements = new LinkedHashSet<>();
 
     DetectedJavaComponents() {
 
@@ -14,31 +22,36 @@ public class DetectedJavaComponents implements DetectedComponents {
 
     @Override
     public Set<SoftwareSystem> softwareSystems() {
-        return null;
+        return emptySet();
     }
 
     @Override
     public Set<SoftwareSubSystem> softwareSubSystems() {
-        return null;
+        return emptySet();
     }
 
     @Override
     public Set<Module> modules() {
-        return null;
+        return emptySet();
     }
 
     @Override
     public Set<SourcesRoot> sourcesRoots() {
-        return null;
+        return emptySet();
     }
 
     @Override
     public Set<SourceFile> sourceFiles() {
-        return null;
+        return Collections.unmodifiableSet(sourceFiles);
     }
 
     @Override
     public Set<ProgrammingElement> programmingElements() {
-        return null;
+        return Collections.unmodifiableSet(elements);
+    }
+
+    void addSourceFile(SourceFile sourceFile) {
+        sourceFiles.add(sourceFile);
+        elements.addAll(sourceFile.elements());
     }
 }
