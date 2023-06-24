@@ -19,6 +19,8 @@ public class JavaSourceFile implements SourceFile {
 
     private final Resource resource;
 
+    private final JavaPackage javaPackage;
+
     @Override
     public Resource resource() {
         return resource;
@@ -27,6 +29,10 @@ public class JavaSourceFile implements SourceFile {
     @Override
     public Set<ProgrammingElement> elements() {
         return elements;
+    }
+
+    public JavaPackage javaPackage() {
+        return javaPackage;
     }
 
     public void addProgrammingElement(final ProgrammingElement element) {

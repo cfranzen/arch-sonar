@@ -58,14 +58,19 @@ class JavaComponentDetectorTest {
         // Then
         val elements = components.programmingElements();
         assertThat(elements)
-                .hasSize(2)
+                .hasSize(3)
                 .anySatisfy(element ->
                         assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
                                 assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum"))).anySatisfy(element ->
+                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum")))
+                .anySatisfy(element ->
                         assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
                                 assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum$MyNestedEnum")));
+                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum$MyNestedEnum")))
+                .anySatisfy(element ->
+                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                assertThat(type.id().fullyQualifiedName())
+                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum$MyNestedEnum$MyDoubleNestedEnum")));
     }
 
     private static MockResource createResourceFromSource(final String sourceFQN) {
