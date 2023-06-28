@@ -15,9 +15,10 @@ import lombok.extern.log4j.Log4j2;
 import lombok.val;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.joining;
 
 @Log4j2
 class JavaSourceAnalyzer {
@@ -84,7 +85,7 @@ class JavaSourceAnalyzer {
                 current = parent.get();
             }
             names.add(current.getNameAsString());
-            typeName = names.stream().sorted(Comparator.reverseOrder()).collect(Collectors.joining("$"));
+            typeName = names.stream().sorted(reverseOrder()).collect(joining(TypeIdentifier.BINARY_TYPE_SEPARATOR));
         }
         return Optional.of(new TypeIdentifier(javaPackage, typeName));
     }

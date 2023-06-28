@@ -16,6 +16,8 @@ public class DetectedJavaComponents implements DetectedComponents {
 
     private final Set<ProgrammingElement> elements = new LinkedHashSet<>();
 
+    private final Set<ElementRelation> relations = new LinkedHashSet<>();
+
     DetectedJavaComponents() {
 
     }
@@ -48,6 +50,11 @@ public class DetectedJavaComponents implements DetectedComponents {
     @Override
     public Set<ProgrammingElement> programmingElements() {
         return Collections.unmodifiableSet(elements);
+    }
+
+    @Override
+    public Set<ElementRelation> relations() {
+        return Collections.unmodifiableSet(relations);
     }
 
     void addSourceFile(SourceFile sourceFile) {

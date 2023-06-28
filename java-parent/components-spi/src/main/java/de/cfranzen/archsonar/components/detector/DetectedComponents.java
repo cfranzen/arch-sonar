@@ -18,4 +18,6 @@ public interface DetectedComponents {
     Set<SourceFile> sourceFiles();
 
     Set<ProgrammingElement> programmingElements();
+
+    Set<ElementRelation> relations();
 }
