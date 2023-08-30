@@ -16,10 +16,6 @@
         <java.version>17</java.version>
         <junit.version>5.10.0</junit.version>
         <lombok.version>1.18.28</lombok.version>
-
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.basedir}/sonar-report-aggregate/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <modules>
