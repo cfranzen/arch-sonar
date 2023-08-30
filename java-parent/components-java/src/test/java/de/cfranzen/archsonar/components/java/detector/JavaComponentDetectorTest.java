@@ -66,11 +66,27 @@ class JavaComponentDetectorTest {
                 .anySatisfy(element ->
                         assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
                                 assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum$MyNestedEnum")))
+                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum")))
                 .anySatisfy(element ->
                         assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
                                 assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum$MyNestedEnum$MyDoubleNestedEnum")));
+                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum.MyDoubleNestedEnum")));
+    }
+
+    @Test
+    void ignoreLocalEnumInJavaSourceFile() {
+        // Given
+        val resource = createResourceFromSource("de.dummy.project.enums.MyLocalNestingEnum");
+
+        // When
+        val components = sut.detect(MockResourcesCollection.of(resource));
+
+        // Then
+        val elements = components.programmingElements();
+        assertThat(elements).hasSize(1).allSatisfy(element ->
+                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.enums.MyLocalNestingEnum")));
     }
 
     private static MockResource createResourceFromSource(final String sourceFQN) {
