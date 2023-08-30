@@ -17,7 +17,7 @@ import java.nio.file.Path;
 @ToString(of = "uri")
 public class MockResource implements Resource {
 
-    private final static MediaType DEFAULT_MEDIATYPE = MediaType.OCTET_STREAM;
+    private static final MediaType DEFAULT_MEDIATYPE = MediaType.OCTET_STREAM;
 
     private final URI uri;
 
@@ -55,7 +55,7 @@ public class MockResource implements Resource {
         try {
             return new MockResource(file.toUri(), Files.readAllBytes(file), mediaType);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to initialize MockResource from file " + file, e);
+            throw new IllegalArgumentException("Unable to initialize MockResource from file " + file, e);
         }
     }
 

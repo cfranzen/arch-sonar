@@ -2,6 +2,7 @@ package de.cfranzen.archsonar.components.java.detector;
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree;
 import com.sun.source.util.JavacTask;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
@@ -77,7 +78,7 @@ class JavaSourceAnalyzer {
          */
         private static Optional<TypeIdentifier> createTypeIdentifier(final JavaPackage javaPackage, final TreePath path) {
             val names = new ArrayList<String>();
-            for (val current : path) {
+            for (final Tree current : path) {
                 if (current.getKind() == METHOD) {
                     return Optional.empty();
                 } else if (current.getKind() == ENUM) {
