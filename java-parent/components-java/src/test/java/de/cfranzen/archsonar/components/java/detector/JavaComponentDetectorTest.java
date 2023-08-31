@@ -5,6 +5,7 @@ import de.cfranzen.archsonar.components.java.JavaType;
 import de.cfranzen.archsonar.resources.test.MockResource;
 import de.cfranzen.archsonar.resources.test.MockResourcesCollection;
 import lombok.val;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -32,64 +33,129 @@ class JavaComponentDetectorTest {
         });
     }
 
-    @Test
-    void detectEnumInJavaSourceFile() {
-        // Given
-        val resource = createResourceFromSource("de.dummy.project.enums.MySimpleEnum");
+    @Nested
+    class DetectEnums {
 
-        // When
-        val components = sut.detect(MockResourcesCollection.of(resource));
+        @Test
+        void detectEnumInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.enums.MySimpleEnum");
 
-        // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.enums.MySimpleEnum")));
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.enums.MySimpleEnum")));
+        }
+
+        @Test
+        void detectNestedEnumInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.enums.MyNestingEnum");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements)
+                    .hasSize(3)
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.enums.MyNestingEnum")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum.MyDoubleNestedEnum")));
+        }
+
+        @Test
+        void ignoreLocalEnumInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.enums.MyLocalNestingEnum");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.enums.MyLocalNestingEnum")));
+        }
     }
 
-    @Test
-    void detectNestedEnumInJavaSourceFile() {
-        // Given
-        val resource = createResourceFromSource("de.dummy.project.enums.MyNestingEnum");
+    @Nested
+    class DetectClasses {
 
-        // When
-        val components = sut.detect(MockResourcesCollection.of(resource));
+        @Test
+        void detectClassInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MySimpleClass");
 
-        // Then
-        val elements = components.programmingElements();
-        assertThat(elements)
-                .hasSize(3)
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum.MyDoubleNestedEnum")));
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.classes.MySimpleClass")));
+        }
+
+        @Test
+        void detectNestedClassInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MyNestingClass");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements)
+                    .hasSize(3)
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.classes.MyNestingClass")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass.MyDoubleNestedClass")));
+        }
+
+        @Test
+        void ignoreLocalClassInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MyLocalNestingClass");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.classes.MyLocalNestingClass")));
+        }
     }
 
-    @Test
-    void ignoreLocalEnumInJavaSourceFile() {
-        // Given
-        val resource = createResourceFromSource("de.dummy.project.enums.MyLocalNestingEnum");
-
-        // When
-        val components = sut.detect(MockResourcesCollection.of(resource));
-
-        // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.enums.MyLocalNestingEnum")));
-    }
-
-    private static MockResource createResourceFromSource(final String sourceFQN) {
+        private static MockResource createResourceFromSource(final String sourceFQN) {
         val sourceFile = Path.of("src/test/resources/javasources/" + sourceFQN.replace('.', '/') + ".java");
         if (!Files.exists(sourceFile)) {
             throw new IllegalArgumentException("Could not find file for " + sourceFQN + " at " + sourceFile);

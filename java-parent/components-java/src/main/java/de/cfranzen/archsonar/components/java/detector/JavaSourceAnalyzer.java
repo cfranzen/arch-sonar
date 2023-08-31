@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sun.source.tree.Tree.Kind.ENUM;
-import static com.sun.source.tree.Tree.Kind.METHOD;
+import static com.sun.source.tree.Tree.Kind.*;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.joining;
 
@@ -81,7 +80,7 @@ class JavaSourceAnalyzer {
             for (final Tree current : path) {
                 if (current.getKind() == METHOD) {
                     return Optional.empty();
-                } else if (current.getKind() == ENUM) {
+                } else if (current.getKind() == ENUM || current.getKind() == CLASS) {
                     names.add(((ClassTree) current).getSimpleName().toString());
                 }
             }
