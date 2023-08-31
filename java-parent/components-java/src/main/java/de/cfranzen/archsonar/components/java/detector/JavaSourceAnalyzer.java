@@ -80,7 +80,7 @@ class JavaSourceAnalyzer {
             for (final Tree current : path) {
                 if (current.getKind() == METHOD) {
                     return Optional.empty();
-                } else if (current.getKind() == ENUM || current.getKind() == CLASS) {
+                } else if (current.getKind() == ENUM || current.getKind() == CLASS || current.getKind() == INTERFACE) {
                     names.add(((ClassTree) current).getSimpleName().toString());
                 }
             }
