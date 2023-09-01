@@ -48,7 +48,8 @@ class JavaComponentDetectorTest {
             val elements = components.programmingElements();
             assertThat(elements).hasSize(1).allSatisfy(element ->
                     assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.enums.MySimpleEnum")));
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.enums.MySimpleEnum")));
         }
 
         @Test
@@ -109,7 +110,8 @@ class JavaComponentDetectorTest {
             val elements = components.programmingElements();
             assertThat(elements).hasSize(1).allSatisfy(element ->
                     assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.classes.MySimpleClass")));
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.classes.MySimpleClass")));
         }
 
         @Test
@@ -171,7 +173,8 @@ class JavaComponentDetectorTest {
             val elements = components.programmingElements();
             assertThat(elements).hasSize(1).allSatisfy(element ->
                     assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.interfaces.MySimpleInterface")));
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.interfaces.MySimpleInterface")));
         }
 
         @Test
@@ -232,7 +235,8 @@ class JavaComponentDetectorTest {
             val elements = components.programmingElements();
             assertThat(elements).hasSize(1).allSatisfy(element ->
                     assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.records.MySimpleRecord")));
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.records.MySimpleRecord")));
         }
 
         @Test
@@ -275,6 +279,53 @@ class JavaComponentDetectorTest {
                     assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
                             assertThat(type.id().fullyQualifiedName())
                                     .isEqualTo("de.dummy.project.records.MyLocalNestingRecord")));
+        }
+    }
+
+
+    @Nested
+    class DetectAnnotations {
+
+        @Test
+        void detectAnnotationInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.annotations.MySimpleAnnotation");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.annotations.MySimpleAnnotation")));
+        }
+
+        @Test
+        void detectNestedAnnotationInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.annotations.MyNestingAnnotation");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements)
+                    .hasSize(3)
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.annotations.MyNestingAnnotation")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.annotations.MyNestingAnnotation.MyNestedAnnotation")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.annotations.MyNestingAnnotation.MyNestedAnnotation.MyDoubleNestedAnnotation")));
         }
     }
 

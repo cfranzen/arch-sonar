@@ -81,7 +81,7 @@ class JavaSourceAnalyzer {
                 if (current.getKind() == METHOD) {
                     return Optional.empty();
                 } else if (current.getKind() == ENUM || current.getKind() == CLASS || current.getKind() == INTERFACE ||
-                        current.getKind() == RECORD) {
+                        current.getKind() == RECORD || current.getKind() == ANNOTATION_TYPE) {
                     names.add(((ClassTree) current).getSimpleName().toString());
                 }
             }
