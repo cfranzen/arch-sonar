@@ -217,6 +217,67 @@ class JavaComponentDetectorTest {
         }
     }
 
+    @Nested
+    class DetectRecords {
+
+        @Test
+        void detectRecordInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.records.MySimpleRecord");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName()).isEqualTo("de.dummy.project.records.MySimpleRecord")));
+        }
+
+        @Test
+        void detectNestedRecordInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.records.MyNestingRecord");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements)
+                    .hasSize(3)
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.records.MyNestingRecord")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord")))
+                    .anySatisfy(element ->
+                            assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                                    assertThat(type.id().fullyQualifiedName())
+                                            .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord.MyDoubleNestedRecord")));
+        }
+
+        @Test
+        void ignoreLocalRecordInJavaSourceFile() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.records.MyLocalNestingRecord");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val elements = components.programmingElements();
+            assertThat(elements).hasSize(1).allSatisfy(element ->
+                    assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
+                            assertThat(type.id().fullyQualifiedName())
+                                    .isEqualTo("de.dummy.project.records.MyLocalNestingRecord")));
+        }
+    }
+
     private static MockResource createResourceFromSource(final String sourceFQN) {
         val sourceFile = Path.of("src/test/resources/javasources/" + sourceFQN.replace('.', '/') + ".java");
         if (!Files.exists(sourceFile)) {
