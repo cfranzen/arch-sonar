@@ -21,11 +21,10 @@ class JavaComponentDetectorRecordsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.records.MySimpleRecord")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.records.MySimpleRecord"));
     }
 
     @Test
@@ -37,21 +36,18 @@ class JavaComponentDetectorRecordsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements)
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types)
                 .hasSize(3)
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.records.MyNestingRecord")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord.MyDoubleNestedRecord")));
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.records.MyNestingRecord"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.records.MyNestingRecord.MyNestedRecord.MyDoubleNestedRecord"));
     }
 
     @Test
@@ -63,10 +59,9 @@ class JavaComponentDetectorRecordsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.records.MyLocalNestingRecord")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.records.MyLocalNestingRecord"));
     }
 }

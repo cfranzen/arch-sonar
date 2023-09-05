@@ -21,11 +21,10 @@ class JavaComponentDetectorClassesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.classes.MySimpleClass")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.classes.MySimpleClass"));
     }
 
     @Test
@@ -37,21 +36,18 @@ class JavaComponentDetectorClassesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements)
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types)
                 .hasSize(3)
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.classes.MyNestingClass")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass.MyDoubleNestedClass")));
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.classes.MyNestingClass"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.classes.MyNestingClass.MyNestedClass.MyDoubleNestedClass"));
     }
 
     @Test
@@ -63,10 +59,9 @@ class JavaComponentDetectorClassesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.classes.MyLocalNestingClass")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.classes.MyLocalNestingClass"));
     }
 }

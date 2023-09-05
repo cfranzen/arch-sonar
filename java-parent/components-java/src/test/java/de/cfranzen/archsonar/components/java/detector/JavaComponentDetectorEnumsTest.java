@@ -21,11 +21,10 @@ class JavaComponentDetectorEnumsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.enums.MySimpleEnum")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.enums.MySimpleEnum"));
     }
 
     @Test
@@ -37,21 +36,18 @@ class JavaComponentDetectorEnumsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements)
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types)
                 .hasSize(3)
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum.MyDoubleNestedEnum")));
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.enums.MyNestingEnum"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.enums.MyNestingEnum.MyNestedEnum.MyDoubleNestedEnum"));
     }
 
     @Test
@@ -63,10 +59,9 @@ class JavaComponentDetectorEnumsTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.enums.MyLocalNestingEnum")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.enums.MyLocalNestingEnum"));
     }
 }

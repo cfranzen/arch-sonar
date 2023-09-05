@@ -7,6 +7,7 @@ import de.cfranzen.archsonar.components.detector.DetectedComponents;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptySet;
 
@@ -50,6 +51,13 @@ public class DetectedJavaComponents implements DetectedComponents {
     @Override
     public Set<ProgrammingElement> programmingElements() {
         return Collections.unmodifiableSet(elements);
+    }
+
+    public <T extends ProgrammingElement> Set<T> programmingElements(Class<T> elementType) {
+        return elements.stream()
+                .filter(elementType::isInstance)
+                .map(elementType::cast)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override

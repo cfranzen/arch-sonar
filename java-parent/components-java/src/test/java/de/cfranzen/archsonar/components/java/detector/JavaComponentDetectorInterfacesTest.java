@@ -21,11 +21,10 @@ class JavaComponentDetectorInterfacesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.interfaces.MySimpleInterface")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.interfaces.MySimpleInterface"));
     }
 
     @Test
@@ -37,21 +36,18 @@ class JavaComponentDetectorInterfacesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements)
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types)
                 .hasSize(3)
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.interfaces.MyNestingInterface")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.interfaces.MyNestingInterface.MyNestedInterface")))
-                .anySatisfy(element ->
-                        assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                                assertThat(type.id().fullyQualifiedName())
-                                        .isEqualTo("de.dummy.project.interfaces.MyNestingInterface.MyNestedInterface.MyDoubleNestedInterface")));
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.interfaces.MyNestingInterface"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.interfaces.MyNestingInterface.MyNestedInterface"))
+                .anySatisfy(type ->
+                        assertThat(type.id().fullyQualifiedName())
+                                .isEqualTo("de.dummy.project.interfaces.MyNestingInterface.MyNestedInterface.MyDoubleNestedInterface"));
     }
 
     @Test
@@ -63,10 +59,9 @@ class JavaComponentDetectorInterfacesTest {
         val components = sut.detect(MockResourcesCollection.of(resource));
 
         // Then
-        val elements = components.programmingElements();
-        assertThat(elements).hasSize(1).allSatisfy(element ->
-                assertThat(element).isInstanceOfSatisfying(JavaType.class, type ->
-                        assertThat(type.id().fullyQualifiedName())
-                                .isEqualTo("de.dummy.project.interfaces.MyLocalNestingInterface")));
+        val types = components.programmingElements(JavaType.class);
+        assertThat(types).hasSize(1).allSatisfy(type ->
+                assertThat(type.id().fullyQualifiedName())
+                        .isEqualTo("de.dummy.project.interfaces.MyLocalNestingInterface"));
     }
 }
