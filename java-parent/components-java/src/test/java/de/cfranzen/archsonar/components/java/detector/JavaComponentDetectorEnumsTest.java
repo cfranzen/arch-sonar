@@ -5,7 +5,7 @@ import de.cfranzen.archsonar.resources.test.MockResourcesCollection;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
-import static de.cfranzen.archsonar.components.java.detector.SourceUtils.createResourceFromSource;
+import static de.cfranzen.archsonar.components.java.detector.ResourceUtils.createResourceFromSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JavaComponentDetectorEnumsTest {

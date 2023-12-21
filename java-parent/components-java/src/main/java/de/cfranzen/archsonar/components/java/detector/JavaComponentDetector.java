@@ -14,6 +14,8 @@ class JavaComponentDetector implements ComponentDetector {
 
     private final JavaSourceAnalyzer sourceAnalyzer = new JavaSourceAnalyzer();
 
+    private final JavaBytecodeAnalyzer bytecodeAnalyzer = new JavaBytecodeAnalyzer();
+
     JavaComponentDetector() {
 
     }
@@ -24,6 +26,8 @@ class JavaComponentDetector implements ComponentDetector {
         resources.resources().forEach(resource -> {
             if (SOURCE_TYPES.contains(resource.type())) {
                 sourceAnalyzer.analyze(resource).ifPresent(components::addSourceFile);
+            } else if (BYTECODE_TYPES.contains(resource.type())) {
+                bytecodeAnalyzer.analyze(resource).ifPresent(components::addSourceFile);
             }
         });
         return components;

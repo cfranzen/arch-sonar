@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "resource")
@@ -31,11 +33,26 @@ public class JavaSourceFile implements SourceFile {
         return elements;
     }
 
+    public <T extends ProgrammingElement> Set<T> elements(Class<T> elementType) {
+        return elements.stream()
+                .filter(elementType::isInstance)
+                .map(elementType::cast)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
     public JavaPackage javaPackage() {
         return javaPackage;
     }
 
     public void addProgrammingElement(final ProgrammingElement element) {
         elements.add(element);
+    }
+
+    public Optional<JavaType> findType(final TypeIdentifier identifier) {
+        return elements.stream()
+                .filter(e -> e instanceof JavaType)
+                .map(e -> (JavaType) e)
+                .filter(t -> t.id().equals(identifier))
+                .findFirst();
     }
 }

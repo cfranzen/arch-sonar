@@ -6,9 +6,9 @@ import lombok.val;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-final class SourceUtils {
+final class ResourceUtils {
 
-    private SourceUtils() {
+    private ResourceUtils() {
         // Do not instantiate
     }
 
@@ -18,5 +18,13 @@ final class SourceUtils {
             throw new IllegalArgumentException("Could not find file for " + sourceFQN + " at " + sourceFile);
         }
         return MockResource.fromFile(sourceFile, JavaComponentDetector.SOURCE_TYPES.stream().findAny().orElseThrow());
+    }
+
+    static MockResource createResourceFromClassfile(final String classFQN) {
+        val classFile = Path.of("src/test/resources/javaclasses/" + classFQN.replace('.', '/') + ".class");
+        if (!Files.exists(classFile)) {
+            throw new IllegalArgumentException("Could not find file for " + classFQN + " at " + classFile);
+        }
+        return MockResource.fromFile(classFile, JavaComponentDetector.BYTECODE_TYPES.stream().findAny().orElseThrow());
     }
 }
