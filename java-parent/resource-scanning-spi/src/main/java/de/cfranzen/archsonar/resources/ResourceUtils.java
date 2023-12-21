@@ -12,6 +12,17 @@ public final class ResourceUtils {
         // Do not instantiate utils class
     }
 
+    public static byte[] readContent(final Resource resource) throws IOException {
+        try (val is = resource.openInputStream()) {
+            val result = new ByteArrayOutputStream();
+            val buffer = new byte[1024];
+            for (int length; (length = is.read(buffer)) != -1; ) {
+                result.write(buffer, 0, length);
+            }
+            return result.toByteArray();
+        }
+    }
+
     public static String readContentAsString(final Resource resource) throws IOException {
         try (val is = resource.openInputStream()) {
             val result = new ByteArrayOutputStream();
