@@ -7,7 +7,9 @@ import de.cfranzen.archsonar.components.ProgrammingElement;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.val;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,13 +46,23 @@ public class JavaType implements HasNamespace, ProgrammingElement, HasChildEleme
         return union;
     }
 
-    public JavaType addField(String name) {
-        fields.add(new JavaField(this, new FieldIdentifier(id, name)));
-        return this;
+    public Set<JavaField> fields() {
+        return Collections.unmodifiableSet(fields);
     }
 
-    public JavaType addMethod(String name, int index) {
-        methods.add(new JavaMethod(this, new MethodIdentifier(id, name, index)));
-        return this;
+    public Set<JavaMethod> methods() {
+        return Collections.unmodifiableSet(methods);
+    }
+
+    public JavaField addField(String name) {
+        val field = new JavaField(this, new FieldIdentifier(id, name));
+        fields.add(field);
+        return field;
+    }
+
+    public JavaMethod addMethod(String name, int index) {
+        val method = new JavaMethod(this, new MethodIdentifier(id, name, index));
+        methods.add(method);
+        return method;
     }
 }

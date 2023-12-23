@@ -7,4 +7,19 @@ public record MySimpleRecord(
         String myString,
         int myInt
 ) {
+
+    @Override
+    public int myInt() {
+        return myInt;
+    }
+
+    @Override
+    public MySimpleEnum myEnum() {
+        return myEnum;
+    }
+
+    @Override
+    public String myString() {
+        return myString;
+    }
 }
