@@ -21,7 +21,7 @@
             <!-- Use backport of Classfile API until it is released with JDK 22 -->
             <groupId>io.github.dmlloyd</groupId>
             <artifactId>jdk-classfile-preview</artifactId>
-            <version>22.2.1</version>
+            <version>22.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
