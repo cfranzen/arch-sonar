@@ -46,7 +46,7 @@ jobs:
           mvn -B verify -Dmaven.test.failure.ignore=true
 
       - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@v4.0.0
+        uses: advanced-security/maven-dependency-submission-action@v4.0.2
 
       - name: Report Test Results
         uses: dorny/test-reporter@v1
