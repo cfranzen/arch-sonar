@@ -50,7 +50,10 @@ class PathResourceTest {
         val sut = new PathResource(file);
 
         // When
-        val content = new BufferedReader(new InputStreamReader(sut.openInputStream())).readLine();
+        final String content;
+        try (val reader = new BufferedReader(new InputStreamReader(sut.openInputStream()))) {
+            content = reader.readLine();
+        }
 
         // Then
         assertThat(content).isEqualTo(CONTENT);
