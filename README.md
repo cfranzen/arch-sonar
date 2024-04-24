@@ -7,12 +7,6 @@
 [![CodeScene System Mastery](https://codescene.io/projects/47664/status-badges/system-mastery)](https://codescene.io/projects/47664)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## References
-
-SonarCloud: https://sonarcloud.io/project/overview?id=cfranzen_arch-sonar
-
-CodeScene: https://codescene.io/projects/47664/
-
 ## Similar Tools
 
 - jQAssistant: https://github.com/jQAssistant
@@ -20,6 +14,7 @@ CodeScene: https://codescene.io/projects/47664/
 - ArchUnit: https://github.com/TNG/ArchUnit
 - JDepend: https://github.com/clarkware/jdepend
 - Sourcetrail: https://github.com/CoatiSoftware/Sourcetrail
+- Structure101 Studio: https://structure101.com/products/studio/
 
 ## Thank you
 
