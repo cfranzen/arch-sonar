@@ -8,13 +8,31 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## References
+
 SonarCloud: https://sonarcloud.io/project/overview?id=cfranzen_arch-sonar
 
 CodeScene: https://codescene.io/projects/47664/
 
 ## Similar Tools
+
 - jQAssistant: https://github.com/jQAssistant
 - Sonargraph: https://www.hello2morrow.com/products/sonargraph
 - ArchUnit: https://github.com/TNG/ArchUnit
 - JDepend: https://github.com/clarkware/jdepend
 - Sourcetrail: https://github.com/CoatiSoftware/Sourcetrail
+
+## Thank you
+
+Thanks for supporting this project to
+
+<a href="https://jb.gg/OpenSourceSupport" target="_blank"  rel="noopener noreferrer">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.png" width="150" alt="JetBrains">
+</a>
+<br/><br/>
+<a href="https://sonarcloud.io/summary/new_code?id=cfranzen_arch-sonar" target="_blank"  rel="noopener noreferrer">
+<img src="https://sonarcloud.io/images/project_badges/sonarcloud-white.svg" width="150" alt="SonarCloud">
+</a>
+<br/><br/>
+<a href="https://codescene.io/projects/47664" target="_blank"  rel="noopener noreferrer">
+<img src="https://codescene.io/images/analyzed-by-codescene-badge.svg" width="150" alt="CodeScene">
+</a>
