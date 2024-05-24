@@ -1,8 +1,5 @@
 package de.cfranzen.archsonar.components.java.detector;
 
-import com.sun.source.tree.ClassTree;
-import com.sun.source.tree.IdentifierTree;
-import com.sun.source.tree.VariableTree;
 import com.sun.source.util.JavacTask;
 import de.cfranzen.archsonar.components.ProgrammingElement;
 import de.cfranzen.archsonar.components.java.JavaPackage;
@@ -23,11 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sun.source.tree.Tree.Kind.ENUM;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.joining;
 import static javax.lang.model.element.ElementKind.*;
-import static javax.lang.model.element.Modifier.*;
 
 @Log4j2
 class JavaSourceAnalyzer {
@@ -105,10 +100,6 @@ class JavaSourceAnalyzer {
                 });
             }
             return super.visitVariable(varElement, context);
-        }
-
-        private static boolean isEnumValue(final VariableTree node, final ClassTree parentClass) {
-            return parentClass.getKind() == ENUM && node.getModifiers().getFlags().containsAll(List.of(PUBLIC, STATIC, FINAL)) && node.getType() instanceof IdentifierTree varTypeIdentifier && varTypeIdentifier.getName().equals(parentClass.getSimpleName());
         }
     }
 
