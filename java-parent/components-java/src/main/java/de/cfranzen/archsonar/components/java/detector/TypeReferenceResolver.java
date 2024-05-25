@@ -28,6 +28,11 @@ class TypeReferenceResolver {
     }
 
     TypeReference resolve(final String typeIdentifier) {
+        // Check if type identifier is full-qualified already
+        if (typeIdentifier.contains(".")) {
+            return new TypeReference(typeIdentifier);
+        }
+
         val suffix = STR.".\{typeIdentifier}";
         for (val imp : fqnImports) {
             if (imp.endsWith(suffix)) {
