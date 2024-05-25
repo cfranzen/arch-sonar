@@ -102,34 +102,18 @@ class JavaComponentDetectorRecordsTest {
             // Then
             val methods = components.programmingElements(JavaMethod.class);
             assertThat(methods)
-                    .hasSize(7)
+                    .hasSize(3)
                     .anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("<init>"),
+                                    () -> assertThat(method.id().name()).isEqualTo("myInt"),
                                     () -> assertThat(method.id().index()).isEqualTo(0)
                             )
                     ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("myInt"),
+                                    () -> assertThat(method.id().name()).isEqualTo("myEnum"),
                                     () -> assertThat(method.id().index()).isEqualTo(1)
                             )
                     ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("myEnum"),
-                                    () -> assertThat(method.id().index()).isEqualTo(2)
-                            )
-                    ).anySatisfy(method -> assertAll(
                                     () -> assertThat(method.id().name()).isEqualTo("myString"),
-                                    () -> assertThat(method.id().index()).isEqualTo(3)
-                            )
-                    ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("toString"),
-                                    () -> assertThat(method.id().index()).isEqualTo(4)
-                            )
-                    ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("hashCode"),
-                                    () -> assertThat(method.id().index()).isEqualTo(5)
-                            )
-                    ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("equals"),
-                                    () -> assertThat(method.id().index()).isEqualTo(6)
+                                    () -> assertThat(method.id().index()).isEqualTo(2)
                             )
                     );
         }

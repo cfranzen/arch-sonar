@@ -102,30 +102,18 @@ class JavaComponentDetectorEnumsTest {
             // Then
             val methods = components.programmingElements(JavaMethod.class);
             assertThat(methods)
-                    .hasSize(6)
+                    .hasSize(3)
                     .anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("values"),
+                                    () -> assertThat(method.id().name()).isEqualTo("getMyInt"),
                                     () -> assertThat(method.id().index()).isEqualTo(0)
                             )
                     ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("valueOf"),
+                                    () -> assertThat(method.id().name()).isEqualTo("getMyEnum"),
                                     () -> assertThat(method.id().index()).isEqualTo(1)
                             )
                     ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("<init>"),
-                                    () -> assertThat(method.id().index()).isEqualTo(2)
-                            )
-                    ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("getMyInt"),
-                                    () -> assertThat(method.id().index()).isEqualTo(3)
-                            )
-                    ).anySatisfy(method -> assertAll(
-                                    () -> assertThat(method.id().name()).isEqualTo("getMyEnum"),
-                                    () -> assertThat(method.id().index()).isEqualTo(4)
-                            )
-                    ).anySatisfy(method -> assertAll(
                                     () -> assertThat(method.id().name()).isEqualTo("getMyString"),
-                                    () -> assertThat(method.id().index()).isEqualTo(5)
+                                    () -> assertThat(method.id().index()).isEqualTo(2)
                             )
                     );
         }
