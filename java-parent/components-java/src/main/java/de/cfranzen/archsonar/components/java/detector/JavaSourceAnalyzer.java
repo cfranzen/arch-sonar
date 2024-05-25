@@ -4,11 +4,10 @@ import com.sun.source.tree.*;
 import com.sun.source.util.JavacTask;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
+import de.cfranzen.archsonar.components.ElementRelation;
 import de.cfranzen.archsonar.components.ProgrammingElement;
-import de.cfranzen.archsonar.components.java.JavaPackage;
-import de.cfranzen.archsonar.components.java.JavaSourceFile;
-import de.cfranzen.archsonar.components.java.JavaType;
-import de.cfranzen.archsonar.components.java.TypeIdentifier;
+import de.cfranzen.archsonar.components.RelationType;
+import de.cfranzen.archsonar.components.java.*;
 import de.cfranzen.archsonar.resources.Resource;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
@@ -36,9 +35,13 @@ class JavaSourceAnalyzer {
     Optional<JavaSourceFile> analyze(Resource resource) {
         try {
             val compilationUnit = parse(resource);
+            val imports = getImports(compilationUnit);
+
             val javaPackage = createJavaPackageFromCompilationUnit(compilationUnit);
             val sourceFile = new JavaSourceFile(resource, javaPackage);
-            val context = new ParsingContext(sourceFile);
+            val resolver = new TypeReferenceResolver(javaPackage, imports);
+            val context = new ParsingContext(sourceFile, resolver);
+
             TYPES_VISITOR.scan(compilationUnit, context);
             METHODS_FIELDS_VISITOR.scan(compilationUnit, context);
             return Optional.of(sourceFile);
@@ -70,6 +73,14 @@ class JavaSourceAnalyzer {
                     .ifPresent(id -> {
                         val javaType = new JavaType(id);
                         context.addProgrammingElement(javaType);
+
+                        val extendsClause = node.getExtendsClause();
+                        if (extendsClause instanceof IdentifierTree extendsId) {
+                            TypeReference reference = context.resolveTypeReference(extendsId.getName().toString());
+                            context.addElementRelation(
+                                    new TypeRelation(id, reference, RelationType.INHERITS)
+                            );
+                        }
                     });
             return super.visitClass(node, context);
         }
@@ -136,8 +147,16 @@ class JavaSourceAnalyzer {
         return Optional.of(new TypeIdentifier(javaPackage, typeName));
     }
 
+    private List<String> getImports(final CompilationUnitTree compilationUnit) {
+        return compilationUnit.getImports().stream()
+                .map(importTree -> importTree.getQualifiedIdentifier().toString())
+                .toList();
+    }
+
     private record ParsingContext(
-            JavaSourceFile sourceFile
+            JavaSourceFile sourceFile,
+
+            TypeReferenceResolver resolver
     ) {
         public JavaPackage javaPackage() {
             return sourceFile.javaPackage();
@@ -147,8 +166,16 @@ class JavaSourceAnalyzer {
             sourceFile.addProgrammingElement(element);
         }
 
+        public void addElementRelation(final ElementRelation elementRelation) {
+            sourceFile.addElementRelation(elementRelation);
+        }
+
         public Optional<JavaType> findType(final TypeIdentifier identifier) {
             return sourceFile.findType(identifier);
+        }
+
+        public TypeReference resolveTypeReference(final String identifierName) {
+            return resolver.resolve(identifierName);
         }
     }
 }

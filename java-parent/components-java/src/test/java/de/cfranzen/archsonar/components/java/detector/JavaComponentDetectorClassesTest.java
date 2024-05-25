@@ -1,5 +1,6 @@
 package de.cfranzen.archsonar.components.java.detector;
 
+import de.cfranzen.archsonar.components.RelationType;
 import de.cfranzen.archsonar.components.java.JavaField;
 import de.cfranzen.archsonar.components.java.JavaMethod;
 import de.cfranzen.archsonar.components.java.JavaType;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import static de.cfranzen.archsonar.components.java.detector.ResourceUtils.createResourceFromClassfile;
 import static de.cfranzen.archsonar.components.java.detector.ResourceUtils.createResourceFromSource;
+import static de.cfranzen.archsonar.components.java.detector.TypeUtils.identifier;
+import static de.cfranzen.archsonar.components.java.detector.TypeUtils.reference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -126,6 +129,26 @@ class JavaComponentDetectorClassesTest {
                     ).anySatisfy(method -> assertAll(
                                     () -> assertThat(method.id().name()).isEqualTo("setMyString"),
                                     () -> assertThat(method.id().index()).isEqualTo(5)
+                            )
+                    );
+        }
+
+        @Test
+        void detectExtendsRelation() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MyExtendingClass");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val relations = components.relations();
+            assertThat(relations)
+                    .hasSize(1)
+                    .anySatisfy(rel -> assertAll(
+                                    () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MyExtendingClass")),
+                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.classes", "MySimpleClass")),
+                                    () -> assertThat(rel.type()).isEqualTo(RelationType.INHERITS)
                             )
                     );
         }
@@ -248,4 +271,6 @@ class JavaComponentDetectorClassesTest {
                     );
         }
     }
+
+
 }

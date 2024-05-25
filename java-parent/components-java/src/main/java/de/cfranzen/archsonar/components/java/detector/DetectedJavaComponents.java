@@ -68,5 +68,6 @@ public class DetectedJavaComponents implements DetectedComponents {
     void addSourceFile(SourceFile sourceFile) {
         sourceFiles.add(sourceFile);
         elements.addAll(sourceFile.elements());
+        relations.addAll(sourceFile.relations());
     }
 }

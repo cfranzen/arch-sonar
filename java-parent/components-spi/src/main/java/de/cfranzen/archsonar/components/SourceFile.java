@@ -9,4 +9,6 @@ public interface SourceFile {
     Resource resource();
 
     Set<ProgrammingElement> elements();
+
+    Set<ElementRelation> relations();
 }
