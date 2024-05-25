@@ -4,6 +4,7 @@ import com.sun.source.tree.*;
 import com.sun.source.util.JavacTask;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
+import de.cfranzen.archsonar.components.ProgrammingElement;
 import de.cfranzen.archsonar.components.java.JavaPackage;
 import de.cfranzen.archsonar.components.java.JavaSourceFile;
 import de.cfranzen.archsonar.components.java.JavaType;
@@ -37,8 +38,9 @@ class JavaSourceAnalyzer {
             val compilationUnit = parse(resource);
             val javaPackage = createJavaPackageFromCompilationUnit(compilationUnit);
             val sourceFile = new JavaSourceFile(resource, javaPackage);
-            TYPES_VISITOR.scan(compilationUnit, sourceFile);
-            METHODS_FIELDS_VISITOR.scan(compilationUnit, sourceFile);
+            val context = new ParsingContext(sourceFile);
+            TYPES_VISITOR.scan(compilationUnit, context);
+            METHODS_FIELDS_VISITOR.scan(compilationUnit, context);
             return Optional.of(sourceFile);
         } catch (IOException e) {
             log.error("Unable to parse Java source file {}", resource, e);
@@ -60,23 +62,23 @@ class JavaSourceAnalyzer {
         return new JavaPackage(packageNameExpr.toString());
     }
 
-    private static class TypesVisitor extends TreePathScanner<Void, JavaSourceFile> {
+    private static class TypesVisitor extends TreePathScanner<Void, ParsingContext> {
 
         @Override
-        public Void visitClass(final ClassTree node, final JavaSourceFile sourceFile) {
-            createTypeIdentifier(sourceFile.javaPackage(), getCurrentPath())
+        public Void visitClass(final ClassTree node, final ParsingContext context) {
+            createTypeIdentifier(context.javaPackage(), getCurrentPath())
                     .ifPresent(id -> {
                         val javaType = new JavaType(id);
-                        sourceFile.addProgrammingElement(javaType);
+                        context.addProgrammingElement(javaType);
                     });
-            return super.visitClass(node, sourceFile);
+            return super.visitClass(node, context);
         }
     }
 
-    private static class MethodsFieldsVisitor extends TreePathScanner<Void, JavaSourceFile> {
+    private static class MethodsFieldsVisitor extends TreePathScanner<Void, ParsingContext> {
 
         @Override
-        public Void visitMethod(final MethodTree node, final JavaSourceFile sourceFile) {
+        public Void visitMethod(final MethodTree node, final ParsingContext context) {
             val parentPath = getCurrentPath().getParentPath();
             val parent = parentPath.getLeaf();
             if (parent instanceof ClassTree clazz) {
@@ -85,27 +87,27 @@ class JavaSourceAnalyzer {
                 if (index < 0) {
                     throw new IllegalStateException("Could not find method in class");
                 }
-                createTypeIdentifier(sourceFile.javaPackage(), parentPath)
-                        .flatMap(sourceFile::findType).ifPresent(type -> {
+                createTypeIdentifier(context.javaPackage(), parentPath)
+                        .flatMap(context::findType).ifPresent(type -> {
                             val method = type.addMethod(node.getName().toString(), index);
-                            sourceFile.addProgrammingElement(method);
+                            context.addProgrammingElement(method);
                         });
             }
-            return super.visitMethod(node, sourceFile);
+            return super.visitMethod(node, context);
         }
 
         @Override
-        public Void visitVariable(final VariableTree node, final JavaSourceFile sourceFile) {
+        public Void visitVariable(final VariableTree node, final ParsingContext context) {
             val parentPath = getCurrentPath().getParentPath();
             val parent = parentPath.getLeaf();
             if (parent instanceof ClassTree clazz && !isEnumValue(node, clazz)) {
-                createTypeIdentifier(sourceFile.javaPackage(), parentPath)
-                        .flatMap(sourceFile::findType).ifPresent(type -> {
+                createTypeIdentifier(context.javaPackage(), parentPath)
+                        .flatMap(context::findType).ifPresent(type -> {
                             val field = type.addField(node.getName().toString());
-                            sourceFile.addProgrammingElement(field);
+                            context.addProgrammingElement(field);
                         });
             }
-            return super.visitVariable(node, sourceFile);
+            return super.visitVariable(node, context);
         }
 
         private static boolean isEnumValue(final VariableTree node, final ClassTree parentClass) {
@@ -132,6 +134,22 @@ class JavaSourceAnalyzer {
         }
         val typeName = names.stream().sorted(reverseOrder()).collect(joining(TypeIdentifier.BINARY_TYPE_SEPARATOR));
         return Optional.of(new TypeIdentifier(javaPackage, typeName));
+    }
+
+    private record ParsingContext(
+            JavaSourceFile sourceFile
+    ) {
+        public JavaPackage javaPackage() {
+            return sourceFile.javaPackage();
+        }
+
+        public void addProgrammingElement(final ProgrammingElement element) {
+            sourceFile.addProgrammingElement(element);
+        }
+
+        public Optional<JavaType> findType(final TypeIdentifier identifier) {
+            return sourceFile.findType(identifier);
+        }
     }
 }
 
