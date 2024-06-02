@@ -1,4 +1,4 @@
-package de.cfranzen.archsonar.components.java.detector;
+package de.cfranzen.archsonar.components.java.detector.source;
 
 import de.cfranzen.archsonar.components.java.JavaPackage;
 import de.cfranzen.archsonar.components.java.TypeReference;

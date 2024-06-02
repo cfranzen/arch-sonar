@@ -1,6 +1,8 @@
 package de.cfranzen.archsonar.components.java.detector;
 
 import de.cfranzen.archsonar.components.detector.ComponentDetector;
+import de.cfranzen.archsonar.components.java.detector.bytecode.JavaBytecodeAnalyzer;
+import de.cfranzen.archsonar.components.java.detector.source.JavaSourceAnalyzer;
 import de.cfranzen.archsonar.resources.ResourcesCollection;
 import lombok.val;
 import org.apache.tika.mime.MediaType;

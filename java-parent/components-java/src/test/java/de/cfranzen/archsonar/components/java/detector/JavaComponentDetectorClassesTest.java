@@ -147,7 +147,7 @@ class JavaComponentDetectorClassesTest {
                     .hasSize(1)
                     .anySatisfy(rel -> assertAll(
                                     () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MyExtendingClass")),
-                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.classes", "MySimpleClass")),
+                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.classes", "MySealedClass")),
                                     () -> assertThat(rel.type()).isEqualTo(RelationType.INHERITS)
                             )
                     );
@@ -174,6 +174,26 @@ class JavaComponentDetectorClassesTest {
                                     () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MyImplementingClass")),
                                     () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.interfaces", "MyNestingInterface")),
                                     () -> assertThat(rel.type()).isEqualTo(RelationType.INHERITS)
+                            )
+                    );
+        }
+
+        @Test
+        void detectPermitsRelation() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MySealedClass");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val relations = components.relations();
+            assertThat(relations)
+                    .hasSize(1)
+                    .anySatisfy(rel -> assertAll(
+                                    () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MySealedClass")),
+                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.classes", "MyExtendingClass")),
+                                    () -> assertThat(rel.type()).isEqualTo(RelationType.EXPOSES)
                             )
                     );
         }

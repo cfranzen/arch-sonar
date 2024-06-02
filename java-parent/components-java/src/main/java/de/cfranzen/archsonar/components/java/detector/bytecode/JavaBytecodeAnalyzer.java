@@ -1,4 +1,4 @@
-package de.cfranzen.archsonar.components.java.detector;
+package de.cfranzen.archsonar.components.java.detector.bytecode;
 
 import de.cfranzen.archsonar.components.java.JavaBytecodeFile;
 import de.cfranzen.archsonar.components.java.JavaPackage;
@@ -17,9 +17,9 @@ import java.lang.reflect.AccessFlag;
 import java.util.Optional;
 
 @Log4j2
-class JavaBytecodeAnalyzer {
+public class JavaBytecodeAnalyzer {
 
-    Optional<JavaBytecodeFile> analyze(Resource resource) {
+    public Optional<JavaBytecodeFile> analyze(Resource resource) {
         try {
             val classModel = parse(resource);
             val javaPackage = createJavaPackage(classModel.thisClass().asSymbol());
