@@ -81,6 +81,16 @@ class JavaSourceAnalyzer {
                                     new TypeRelation(id, reference, RelationType.INHERITS)
                             );
                         }
+
+                        val implementsClauses = node.getImplementsClause();
+                        for (val clause : implementsClauses) {
+                            if (clause instanceof IdentifierTree implementsId) {
+                                TypeReference reference = context.resolveTypeReference(implementsId.getName().toString());
+                                context.addElementRelation(
+                                        new TypeRelation(id, reference, RelationType.INHERITS)
+                                );
+                            }
+                        }
                     });
             return super.visitClass(node, context);
         }

@@ -152,6 +152,31 @@ class JavaComponentDetectorClassesTest {
                             )
                     );
         }
+
+        @Test
+        void detectImplementsRelation() {
+            // Given
+            val resource = createResourceFromSource("de.dummy.project.classes.MyImplementingClass");
+
+            // When
+            val components = sut.detect(MockResourcesCollection.of(resource));
+
+            // Then
+            val relations = components.relations();
+            assertThat(relations)
+                    .hasSize(2)
+                    .anySatisfy(rel -> assertAll(
+                                    () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MyImplementingClass")),
+                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.interfaces", "MySimpleInterface")),
+                                    () -> assertThat(rel.type()).isEqualTo(RelationType.INHERITS)
+                            )
+                    ).anySatisfy(rel -> assertAll(
+                                    () -> assertThat(rel.from()).isEqualTo(identifier("de.dummy.project.classes", "MyImplementingClass")),
+                                    () -> assertThat(rel.to()).isEqualTo(reference("de.dummy.project.interfaces", "MyNestingInterface")),
+                                    () -> assertThat(rel.type()).isEqualTo(RelationType.INHERITS)
+                            )
+                    );
+        }
     }
 
     @Nested
