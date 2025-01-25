@@ -7,7 +7,7 @@
 [![CodeScene System Mastery](https://codescene.io/projects/47664/status-badges/system-mastery)](https://codescene.io/projects/47664)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## Similar Tools
+## Helpful / similar Tools
 
 - jQAssistant: https://github.com/jQAssistant
 - Sonargraph: https://www.hello2morrow.com/products/sonargraph
@@ -15,6 +15,9 @@
 - JDepend: https://github.com/clarkware/jdepend
 - Sourcetrail: https://github.com/CoatiSoftware/Sourcetrail
 - Structure101 Studio: https://structure101.com/products/studio/
+- OpenRewrite: https://github.com/openrewrite
+- CodeCharta: https://github.com/MaibornWolff/codecharta
+- Code Maat: https://github.com/adamtornhill/code-maat
 
 ## Thank you
 
