@@ -33,7 +33,7 @@ class TypeReferenceResolver {
             return new TypeReference(typeIdentifier);
         }
 
-        val suffix = STR.".\{typeIdentifier}";
+        val suffix = "." + typeIdentifier;
         for (val imp : fqnImports) {
             if (imp.endsWith(suffix)) {
                 return new TypeReference(imp);
@@ -45,6 +45,6 @@ class TypeReferenceResolver {
         }
 
         // TODO: Support this case
-        throw new IllegalStateException(STR."Could not uniquely resolve type identifier \{typeIdentifier}");
+        throw new IllegalStateException("Could not uniquely resolve type identifier " + typeIdentifier);
     }
 }

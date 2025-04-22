@@ -11,7 +11,7 @@ final class TypeUtils {
     }
 
     public static TypeReference reference(final String packageName, final String typeName) {
-        return new TypeReference(STR."\{packageName}.\{typeName}");
+        return new TypeReference(packageName + "." + typeName);
     }
 
     public static TypeIdentifier identifier(final String packageName, final String typeName) {

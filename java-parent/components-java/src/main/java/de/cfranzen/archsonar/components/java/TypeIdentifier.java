@@ -16,7 +16,7 @@ public record TypeIdentifier(JavaPackage javaPackage, String typeName) implement
     }
 
     public String fullyQualifiedName() {
-        return STR."\{javaPackage().name()}.\{typeName.replace(BINARY_TYPE_SEPARATOR, SOURCE_TYPE_SEPARATOR)}";
+        return javaPackage().name() + "." + typeName.replace(BINARY_TYPE_SEPARATOR, SOURCE_TYPE_SEPARATOR);
     }
 
     @Override
