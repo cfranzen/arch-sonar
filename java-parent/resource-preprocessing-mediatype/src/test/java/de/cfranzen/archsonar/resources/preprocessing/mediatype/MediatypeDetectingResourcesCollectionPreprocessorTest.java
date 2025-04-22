@@ -1,5 +1,6 @@
 package de.cfranzen.archsonar.resources.preprocessing.mediatype;
 
+import de.cfranzen.archsonar.resources.ResourceDecorator;
 import de.cfranzen.archsonar.resources.ResourcesCollection;
 import de.cfranzen.archsonar.resources.preprocessing.ResourcesCollectionPreprocessor;
 import de.cfranzen.archsonar.resources.test.MockResource;
@@ -33,5 +34,21 @@ class MediatypeDetectingResourcesCollectionPreprocessorTest {
                         "binary.dat application/octet-stream",
                         "myclass.java text/x-java-source"
                 );
+    }
+
+    @Test
+    void originalResourceIsStillAvailable() {
+        // Given
+        final MockResource res = MockResource.fromText("file:///myclass.java", "some java code");
+        final MockResourcesCollection collection = MockResourcesCollection.of(res);
+
+        // When
+        final ResourcesCollection preprocessed = sut.preprocess(collection);
+
+        // Then
+        assertThat(preprocessed.resources())
+                .hasSize(1)
+                .hasOnlyElementsOfType(ResourceDecorator.class)
+                .allMatch(r -> ((ResourceDecorator) r).delegate() == res);
     }
 }

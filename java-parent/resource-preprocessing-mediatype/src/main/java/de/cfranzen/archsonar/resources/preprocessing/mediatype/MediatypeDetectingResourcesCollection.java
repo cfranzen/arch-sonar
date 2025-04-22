@@ -29,6 +29,10 @@ class MediatypeDetectingResourcesCollection implements ResourcesCollection {
     }
 
     private Resource wrap(final Resource res) {
+        if (res instanceof MediatypeAwareResource) {
+            return res;
+        }
+
         val mediaType = detectMediaType(res);
         if (mediaType == res.type()) {
             return res;

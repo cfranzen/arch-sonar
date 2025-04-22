@@ -1,6 +1,7 @@
 package de.cfranzen.archsonar.resources.preprocessing.mediatype;
 
 import de.cfranzen.archsonar.resources.Resource;
+import de.cfranzen.archsonar.resources.ResourceDecorator;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.net.URI;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode
 @ToString
-class MediatypeAwareResource implements Resource {
+class MediatypeAwareResource implements ResourceDecorator {
 
     private final Resource delegate;
 
@@ -32,5 +33,10 @@ class MediatypeAwareResource implements Resource {
     @Override
     public MediaType type() {
         return mediaType;
+    }
+
+    @Override
+    public Resource delegate() {
+        return delegate;
     }
 }

@@ -13,6 +13,11 @@ public class MediatypeDetectingResourcesCollectionPreprocessor implements Resour
 
     @Override
     public ResourcesCollection preprocess(final ResourcesCollection collection) {
-        return new MediatypeDetectingResourcesCollection(detector, collection);
+        if (collection instanceof MediatypeDetectingResourcesCollection) {
+            return collection;
+        } else {
+            return new MediatypeDetectingResourcesCollection(detector, collection);
+        }
+
     }
 }
