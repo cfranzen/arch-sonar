@@ -2,6 +2,7 @@ package de.cfranzen.archsonar.resources.preprocessing.mediatype;
 
 import de.cfranzen.archsonar.resources.ResourceDecorator;
 import de.cfranzen.archsonar.resources.ResourcesCollection;
+import de.cfranzen.archsonar.resources.ResourcesCollectionDecorator;
 import de.cfranzen.archsonar.resources.preprocessing.ResourcesCollectionPreprocessor;
 import de.cfranzen.archsonar.resources.test.MockResource;
 import de.cfranzen.archsonar.resources.test.MockResourcesCollection;
@@ -37,7 +38,7 @@ class MediatypeDetectingResourcesCollectionPreprocessorTest {
     }
 
     @Test
-    void originalResourceIsStillAvailable() {
+    void decoratedCollectionAndResourceAreStillAvailable() {
         // Given
         final MockResource res = MockResource.fromText("file:///myclass.java", "some java code");
         final MockResourcesCollection collection = MockResourcesCollection.of(res);
@@ -46,6 +47,10 @@ class MediatypeDetectingResourcesCollectionPreprocessorTest {
         final ResourcesCollection preprocessed = sut.preprocess(collection);
 
         // Then
+        assertThat(preprocessed)
+                .isInstanceOf(ResourcesCollectionDecorator.class)
+                .matches(c -> ((ResourcesCollectionDecorator) c).delegate() == collection);
+
         assertThat(preprocessed.resources())
                 .hasSize(1)
                 .hasOnlyElementsOfType(ResourceDecorator.class)

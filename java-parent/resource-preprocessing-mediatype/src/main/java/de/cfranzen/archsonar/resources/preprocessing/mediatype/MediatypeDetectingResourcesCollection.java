@@ -2,6 +2,7 @@ package de.cfranzen.archsonar.resources.preprocessing.mediatype;
 
 import de.cfranzen.archsonar.resources.Resource;
 import de.cfranzen.archsonar.resources.ResourcesCollection;
+import de.cfranzen.archsonar.resources.ResourcesCollectionDecorator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Log4j2
-class MediatypeDetectingResourcesCollection implements ResourcesCollection {
+class MediatypeDetectingResourcesCollection implements ResourcesCollectionDecorator {
 
     private final Detector detector;
 
@@ -57,5 +58,10 @@ class MediatypeDetectingResourcesCollection implements ResourcesCollection {
         val resourcePath = res.uri().toString();
         val slashIndex = resourcePath.lastIndexOf('/');
         return resourcePath.substring(slashIndex + 1);
+    }
+
+    @Override
+    public ResourcesCollection delegate() {
+        return delegate;
     }
 }
