@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class PathResourceTest {
@@ -57,5 +58,17 @@ class PathResourceTest {
 
         // Then
         assertThat(content).isEqualTo(CONTENT);
+    }
+
+    @Test
+    void failReadingOnIOException() {
+        // Given
+        val missingFile = rootDir.resolve("unknown.txt");
+        val sut = new PathResource(missingFile);
+
+        // When / Then
+        assertThatThrownBy(sut::openInputStream)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Unable to open InputStream");
     }
 }

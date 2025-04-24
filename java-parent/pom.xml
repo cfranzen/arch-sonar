@@ -21,6 +21,7 @@
     <modules>
         <module>resource-scanning-spi</module>
         <module>resource-scanning-filesystem</module>
+        <module>resource-scanning-archive</module>
         <module>components-spi</module>
         <module>components-java</module>
         <module>resource-preprocessing-spi</module>
@@ -184,6 +185,11 @@
             <dependency>
                 <groupId>de.cfranzen.archsonar</groupId>
                 <artifactId>resource-scanning-filesystem</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.cfranzen.archsonar</groupId>
+                <artifactId>resource-scanning-archive</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

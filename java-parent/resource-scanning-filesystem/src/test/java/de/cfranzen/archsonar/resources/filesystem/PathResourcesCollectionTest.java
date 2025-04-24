@@ -83,7 +83,7 @@ class PathResourcesCollectionTest {
         val sut = new PathResourcesCollection(
                 rootDir.resolve("dir1"),
                 rootDir.resolve("dir2"),
-                rootDir.resolve(files.get(files.size() - 1))
+                rootDir.resolve(files.getLast())
         );
 
         // When
