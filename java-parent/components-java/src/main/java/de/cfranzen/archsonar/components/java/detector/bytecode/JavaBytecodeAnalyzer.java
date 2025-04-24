@@ -5,7 +5,7 @@ import de.cfranzen.archsonar.components.java.JavaPackage;
 import de.cfranzen.archsonar.components.java.JavaType;
 import de.cfranzen.archsonar.components.java.TypeIdentifier;
 import de.cfranzen.archsonar.resources.Resource;
-import de.cfranzen.archsonar.resources.ResourceUtils;
+import de.cfranzen.archsonar.resources.support.ResourceUtils;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 

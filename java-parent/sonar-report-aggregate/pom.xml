@@ -22,27 +22,15 @@
         </dependency>
         <dependency>
             <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-preprocessing-mediatype</artifactId>
+            <artifactId>resources-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-preprocessing-spi</artifactId>
+            <artifactId>resources-core</artifactId>
         </dependency>
         <dependency>
             <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-scanning-filesystem</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-scanning-archive</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-scanning-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.cfranzen.archsonar</groupId>
-            <artifactId>resource-scanning-test</artifactId>
+            <artifactId>resources-test</artifactId>
         </dependency>
     </dependencies>
 
