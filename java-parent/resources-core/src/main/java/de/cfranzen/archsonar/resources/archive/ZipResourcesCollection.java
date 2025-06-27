@@ -12,7 +12,7 @@ import java.util.zip.ZipFile;
 
 public class ZipResourcesCollection implements ResourcesCollection {
 
-    private final Set<Resource> resources = new HashSet<>();
+    private final Set<Resource> resources = new LinkedHashSet<>();
 
     public ZipResourcesCollection(final Collection<? extends Resource> zipResources) {
         for (val zipResource : zipResources) {
